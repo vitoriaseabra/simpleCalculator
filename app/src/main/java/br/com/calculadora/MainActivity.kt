@@ -2,6 +2,7 @@ package br.com.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import br.com.calculadora.databinding.ActivityMainBinding
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.lang.Exception
@@ -85,10 +86,9 @@ class MainActivity : AppCompatActivity() {
                     binding.result.text = result.toString()
                 }
             } catch (e: Exception) {
-
+                Log.e(this.javaClass.simpleName, "onCreate: Error in the expression")
             }
         }
-
     }
 
     private fun addOperator(operator: String) {

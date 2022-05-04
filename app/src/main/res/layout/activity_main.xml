@@ -213,5 +213,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="309dp" />
+        app:layout_constraintGuide_begin="@dimen/vertical_guideline_begin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
