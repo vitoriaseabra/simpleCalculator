@@ -21,49 +21,54 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        //Numbers
-        binding.numberZero.setOnClickListener { addExpression("0", true) }
-        binding.numberOne.setOnClickListener { addExpression("1", true) }
-        binding.numberTwo.setOnClickListener { addExpression("2", true) }
-        binding.numberThree.setOnClickListener { addExpression("3", true) }
-        binding.numberFour.setOnClickListener { addExpression("4", true) }
-        binding.numberFive.setOnClickListener { addExpression("5", true) }
-        binding.numberSix.setOnClickListener { addExpression("6", true) }
-        binding.numberSeven.setOnClickListener { addExpression("7", true) }
-        binding.numberEight.setOnClickListener { addExpression("8", true) }
-        binding.numberNine.setOnClickListener { addExpression("9", true) }
+        setNumbersClick()
+        setDotClick()
+        setOperatorsClick()
+        setClearClick()
+        setBackespaceClick()
+        setEqualsClick()
+    }
 
+    private fun setNumbersClick() {
+        with(binding) {
+            numberZero.setOnClickListener { addExpression("0", true) }
+            numberOne.setOnClickListener { addExpression("1", true) }
+            numberTwo.setOnClickListener { addExpression("2", true) }
+            numberThree.setOnClickListener { addExpression("3", true) }
+            numberFour.setOnClickListener { addExpression("4", true) }
+            numberFive.setOnClickListener { addExpression("5", true) }
+            numberSix.setOnClickListener { addExpression("6", true) }
+            numberSeven.setOnClickListener { addExpression("7", true) }
+            numberEight.setOnClickListener { addExpression("8", true) }
+            numberNine.setOnClickListener { addExpression("9", true) }
+        }
+    }
+
+    private fun setDotClick() {
         binding.point.setOnClickListener {
             if (pointCount == 0) {
                 pointCount++
                 addExpression(".", true)
             }
         }
+    }
 
-        //Operators
-        binding.sum.setOnClickListener {
-            addOperator("+")
-        }
+    private fun setOperatorsClick() {
+        binding.sum.setOnClickListener { addOperator("+") }
+        binding.subtraction.setOnClickListener { addOperator("-") }
+        binding.multiplication.setOnClickListener { addOperator("*") }
+        binding.division.setOnClickListener { addOperator("/") }
+    }
 
-        binding.subtraction.setOnClickListener {
-            addOperator("-")
-        }
-
-        binding.multiplication.setOnClickListener {
-            addOperator("*")
-        }
-
-        binding.division.setOnClickListener {
-            addOperator("/")
-        }
-
-        //Buttons
+    private fun setClearClick() {
         binding.clear.setOnClickListener {
             binding.expression.text = ""
             binding.result.text = ""
             pointCount = 0
         }
+    }
 
+    private fun setBackespaceClick() {
         binding.backspace.setOnClickListener {
             val string = binding.expression.text.toString()
 
@@ -72,7 +77,16 @@ class MainActivity : AppCompatActivity() {
             }
             binding.result.text = ""
         }
+    }
 
+    private fun addOperator(operator: String) {
+        if (binding.expression.text.last() in numbers) {
+            pointCount = 0
+            addExpression(operator, false)
+        }
+    }
+
+    private fun setEqualsClick() {
         binding.equals.setOnClickListener {
             try {
                 val expression = ExpressionBuilder(binding.expression.text.toString()).build()
@@ -91,20 +105,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addOperator(operator: String) {
-        if (binding.expression.text.last() in numbers) {
-            pointCount = 0
-            addExpression(operator, false)
-        }
-    }
-
     private fun addExpression(expression: String, clearData: Boolean) {
 
-        if(binding.result.text.isNotEmpty()) {
+        if (binding.result.text.isNotEmpty()) {
             binding.expression.text = ""
         }
 
-        if(clearData) {
+        if (clearData) {
             binding.result.text = ""
             binding.expression.append(expression)
         } else {
