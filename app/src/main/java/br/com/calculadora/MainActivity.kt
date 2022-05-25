@@ -15,6 +15,11 @@ class MainActivity : AppCompatActivity() {
 
     private var pointCount = 0
 
+    private companion object {
+        const val EXP_KEY = "exp"
+        const val RESULT_KEY = "res"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,8 +30,20 @@ class MainActivity : AppCompatActivity() {
         setDotClick()
         setOperatorsClick()
         setClearClick()
-        setBackespaceClick()
+        setBackspaceClick()
         setEqualsClick()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(EXP_KEY, binding.expression.text.toString())
+        outState.putString(RESULT_KEY, binding.result.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        binding.expression.text = savedInstanceState[EXP_KEY] as String
+        binding.result.text = savedInstanceState[RESULT_KEY] as String
     }
 
     private fun setNumbersClick() {
@@ -68,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBackespaceClick() {
+    private fun setBackspaceClick() {
         binding.backspace.setOnClickListener {
             val string = binding.expression.text.toString()
 
@@ -80,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addOperator(operator: String) {
-        if (binding.expression.text.last() in numbers) {
+        if (binding.expression.text.lastOrNull() in numbers) {
             pointCount = 0
             addExpression(operator, false)
         }
